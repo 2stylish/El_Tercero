@@ -16,4 +16,4 @@ c = meson.get_compiler('c')
 #mainsource
 srcs = ['src/etr.c']
 
-executable('main', srcs, dependencies : depz)
+executable('etr', srcs)
