@@ -4,7 +4,7 @@ void makeRDME(struct stat st, const char* name) {
   FILE* rd;
   if (-1 == stat("./README.md", &st)) {
     rd = fopen("./README.md", "w");
-    fprintf(rd, "#%s", name);
+    fprintf(rd, "# %s", name);
     fclose(rd);
   } else {
     printf(COLOR1 "README.md " RESET
