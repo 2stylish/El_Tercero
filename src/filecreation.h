@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 
+void makeRDME(struct stat st, const char* name);
 void makeSrcDir(struct stat st);
 void makeSrcFC(struct stat fakeSt, const char* name);
 void makeSrcFCXX(struct stat fakeSt, const char* name);

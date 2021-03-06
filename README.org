@@ -1,6 +1,0 @@
-#+TITLE: README
-#+OPTIONS: toc:2
-#+TOC: headlines:2
-
-** Title
-*** Subtitle

@@ -1,5 +1,17 @@
 #include "filecreation.h"
 
+void makeRDME(struct stat st, const char* name) {
+  FILE* rd;
+  if (-1 == stat("./README.md", &st)) {
+    rd = fopen("./README.md", "w");
+    fprintf(rd, "#%s", name);
+    fclose(rd);
+  } else {
+    printf(COLOR1 "README.md " RESET
+                  "already exists or you have no permission!\n");
+  }
+}
+
 void makeSrcDir(struct stat st) {
   if (-1 == stat("./src", &st)) {
     mkdir("./src", 0700);

@@ -20,8 +20,6 @@ int main(int argc, char** argv) {
 
   len = strlen(lang);
   char* langTrim = dummyTrim(lang, len);
-  printf("trimmed str%s", langTrim);
-  printf("test\n");
   chooseInit(langTrim, name);
   printf("Please choose a " COLOR3 "license" RESET
          " 8=D\n"
