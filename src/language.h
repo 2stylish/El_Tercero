@@ -7,7 +7,10 @@
 
 void getName(char* name);
 void getLanguage(char* lang);
-char* dummyTrim(char* string, int len);
-void chooseInit(const char* lang, const char* pjname);
+char* dummyTrim(char* hilo);
+void chooseInit(char* lang, const char* pjname);
+void getLicense(char* lic);
+int getBSD(char* bsd);
+int checkBSD(char* lic);
 
 #endif /* ifndef LANGUAGE_H_ */

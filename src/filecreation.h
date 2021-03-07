@@ -16,5 +16,8 @@ void makeRDME(struct stat st, const char* name);
 void makeSrcDir(struct stat st);
 void makeSrcFC(struct stat fakeSt, const char* name);
 void makeSrcFCXX(struct stat fakeSt, const char* name);
+void makeGIGN(struct stat fakeSt, const char* name);
+void makeGATR(struct stat fakeSt, const char* name);
+void makeBSD(int bsdNum);
 
 #endif /* ifndef SYMBOL */

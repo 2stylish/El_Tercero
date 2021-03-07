@@ -1,19 +1,9 @@
-project('xxx', 'c', default_options : ['warning_level=3', 'c_std=c99'])
+project('El_Tercero', 'c', default_options : ['warning_level=3', 'c_std=c99', 'debug=false', 'buildtype=release'])
 
 add_global_arguments(language : 'c')
 c = meson.get_compiler('c')
 
-#built in libs
-#mathl = c.find_library('m', required : true)
-#runtimel = c.find_library('rt', required : true)
-#dlib = c.find_library('dl', required : true)
-#mormal libs
-#depz = [dependency('raylib'), dependency('GL'), dependency('X11'), dependency('threads')]
-
-#include dirs
-#libz = include_directories('lib')
-
 #mainsource
-srcs = ['src/etr.c']
+srcs = ['src/etr.c', 'src/filecreation.c', 'src/language.c']
 
-executable('etr', srcs)
+executable('etr', srcs, install : true, install_dir : '/usr/bin/')
