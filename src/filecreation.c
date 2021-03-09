@@ -22,8 +22,7 @@ void makeRDME(struct stat fakeSt, const char* name) {
     fprintf(rd, RDME, name);
     fclose(rd);
   } else {
-    printf(COLOR1 "README.md" RESET
-                  " already exists or you have no permission!\n");
+    printf(COLOR1 "README.md" RESET " already exists!\n");
   }
 }
 void makeGIGN(struct stat fakeSt, const char* name) {
@@ -34,8 +33,7 @@ void makeGIGN(struct stat fakeSt, const char* name) {
     fprintf(gign, GIGN, name);
     fclose(gign);
   } else {
-    printf(COLOR2 ".gitignore" RESET
-                  " already exists or you have no permission!\n");
+    printf(COLOR2 ".gitignore" RESET " already exists!\n");
   }
 }
 void makeGATR(struct stat fakeSt, const char* name) {
@@ -46,8 +44,7 @@ void makeGATR(struct stat fakeSt, const char* name) {
     fprintf(gatr, GATR, name);
     fclose(gatr);
   } else {
-    printf(COLOR2 ".gitattributes" RESET
-                  " already exists or you have no permission!\n");
+    printf(COLOR2 ".gitattributes" RESET " already exists!\n");
   }
 }
 
@@ -55,8 +52,7 @@ void makeBSD(int bsdNum) {
   struct stat fakeSt = {0};
   FILE* bsd;
   if (-1 != stat("./LICENSE", &fakeSt)) {
-    printf(COLOR2 "LICENSE" RESET
-                  " already exists or you have no permission!\n");
+    printf(COLOR2 "LICENSE" RESET " already exists!\n");
   }
   if (-1 == stat("./LICENSE", &fakeSt) && 1 == bsdNum) {
     bsd = fopen("./LICENSE", "w");
@@ -92,14 +88,14 @@ void makeSrcDir(struct stat fakeSt) {
     mkdir("./src", 0700);
     checkErr();
   } else {
-    printf(COLOR1 "src" RESET " already exists or you have no permission!\n");
+    printf(COLOR1 "src" RESET " already exists!\n");
   }
 
   if (-1 == stat("./lib", &fakeSt)) {
     mkdir("./lib", 0700);
     checkErr();
   } else {
-    printf(COLOR1 "lib " RESET "already exists or you have no permission!\n\n");
+    printf(COLOR1 "lib " RESET "already exists!\n\n");
   }
 }
 
@@ -112,8 +108,7 @@ void makeSrcFC(struct stat fakeSt, const char* name) {
     fprintf(fp, CCONT);
     fclose(fp);
   } else {
-    printf(COLOR2 "main.c" RESET
-                  " already exists or you have no permission!\n");
+    printf(COLOR2 "main.c" RESET " already exists!\n");
   }
 
   if (-1 == stat("./meson.build", &fakeSt)) {
@@ -122,8 +117,7 @@ void makeSrcFC(struct stat fakeSt, const char* name) {
     fprintf(fp, CMES, name);
     fclose(fp);
   } else {
-    printf(COLOR2 "meson.build" RESET
-                  " already exists or you have no permission!\n\n");
+    printf(COLOR2 "meson.build" RESET " already exists!\n\n");
   }
 }
 void makeSrcFCXX(struct stat fakeSt, const char* name) {
@@ -134,8 +128,7 @@ void makeSrcFCXX(struct stat fakeSt, const char* name) {
     fprintf(fp, CXXCONT);
     fclose(fp);
   } else {
-    printf(COLOR2 "main.cxx" RESET
-                  " already exists or you have no perimssions!\n");
+    printf(COLOR2 "main.cxx" RESET " already exists!\n");
   }
 
   if (-1 == stat("./meson.build", &fakeSt)) {
@@ -144,8 +137,7 @@ void makeSrcFCXX(struct stat fakeSt, const char* name) {
     fprintf(fp, CXXMES, name);
     fclose(fp);
   } else {
-    printf(COLOR2 "meson.build" RESET
-                  " already exists or you have no permission!\n");
+    printf(COLOR2 "meson.build" RESET " already exists!\n");
   }
 }
 
