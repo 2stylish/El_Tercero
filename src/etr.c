@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+/* TODO: add cerrno and make it so if i have no permissions i dont create shit
+ */
 
 #include "filecreation.h"
 #include "language.h"
