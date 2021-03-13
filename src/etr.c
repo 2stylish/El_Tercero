@@ -1,13 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/stat.h>
+#include "etr.h"
 /* TODO: add cerrno and make it so if i have no permissions i dont create shit
  */
 
 #include "filecreation.h"
 #include "language.h"
 
-int main(int argc, char** argv) {
+void initETR(int argc, char** argv) {
   char name[41];
   char lang[4];
   char lic[4];
@@ -43,3 +41,5 @@ int main(int argc, char** argv) {
     printf(ORANGE "No license!\n" RESET);
   }
 }
+
+int main(int argc, char** argv) { initETR(argc, argv); }
