@@ -1,0 +1,20 @@
+project('{{.PJName}}', 'cpp', default_options : ['warning_level=3', 'cpp_std=c++17'])
+
+add_global_arguments(language : 'cpp')
+cpp = meson.get_compiler('cpp')
+
+#Sample built-in libs
+#mathl = cpp.find_library('m', required : true)
+#runtimel = cpp.find_library('rt', required : true)
+#dlib = cpp.find_library('dl', required : true)
+
+#Sample dependencies
+#depz = [dependency('raylib'), dependency('GL'), dependency('X11'), dependency('threads')]
+
+#include dirs
+#libz = include_directories('lib')
+
+#main source
+srcs = ['src/main.cxx']
+
+executable('{{.PJName}}', srcs)
