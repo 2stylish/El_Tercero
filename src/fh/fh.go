@@ -21,6 +21,7 @@ type UserData struct {
 	LicNum   string
 	Author   string
 	Year     string
+	VCS      string
 }
 
 func isBetween(num, min, max int) bool {
@@ -87,6 +88,11 @@ func getData(ud *UserData) {
 	ud.Author, err = reader.ReadString('\n')
 	ErrCheck(err)
 	SanitizeStrings(&ud.Author)
+
+	fmt.Print("Git or HG?")
+	ud.VCS, err = reader.ReadString('\n')
+	ErrCheck(err)
+	SanitizeStrings(&ud.VCS)
 }
 
 func DirectoryCreation(patheroo string) {
@@ -123,32 +129,48 @@ func TemplateHandling(tmplPath, filePath string, ud UserData) {
 	defer f.Close()
 }
 
+func cFiles(ud UserData) {
+	TemplateHandling("templates/c.meson.tmpl", "./meson.build", ud)
+	TemplateHandling("templates/main.c.tmpl", "./src/main.c", ud)
+}
+func cppFiles(ud UserData) {
+	TemplateHandling("templates/cxx.meson.tmpl", "./meson.build", ud)
+	TemplateHandling("templates/main.cxx.tmpl", "./src/main.cxx", ud)
+}
+func goFiles(ud UserData) {
+	TemplateHandling("templates/main.go.tmpl", "./src/main.go", ud)
+}
+func gitFiles(ud UserData) {
+	TemplateHandling("templates/gitignore.tmpl", "./.gitignore", ud)
+	TemplateHandling("templates/gitattributes.tmpl", "./.gitattributes", ud)
+}
+func hgFiles(ud UserData) {
+	TemplateHandling("templates/hgignore.tmpl", "./.hgignore", ud)
+}
+
 func FileCreation(ud UserData) {
 	switch ud.Language {
 	case "c":
-		TemplateHandling("templates/gitignore.tmpl", "./.gitignore", ud)
-		TemplateHandling("templates/gitattributes.tmpl", "./.gitattributes", ud)
-		TemplateHandling("templates/c.meson.tmpl", "./meson.build", ud)
-		TemplateHandling("templates/README.tmpl", "./README.md", ud)
-		TemplateHandling("templates/main.c.tmpl", "./src/main.c", ud)
+		cFiles(ud)
 	case "cpp":
-		TemplateHandling("templates/gitignore.tmpl", "./.gitignore", ud)
-		TemplateHandling("templates/gitattributes.tmpl", "./.gitattributes", ud)
-		TemplateHandling("templates/cxx.meson.tmpl", "./meson.build", ud)
-		TemplateHandling("templates/README.tmpl", "./README.md", ud)
-		TemplateHandling("templates/main.cxx.tmpl", "./src/main.cxx", ud)
+		cppFiles(ud)
 	case "go":
-		TemplateHandling("templates/gitignore.tmpl", "./.gitignore", ud)
-		TemplateHandling("templates/gitattributes.tmpl", "./.gitattributes", ud)
-		TemplateHandling("templates/README.tmpl", "./README.md", ud)
-		TemplateHandling("templates/main.go.tmpl", "./src/main.go", ud)
+		goFiles(ud)
 	default:
 		fmt.Println("Defaulting to C!")
-		TemplateHandling("templates/gitignore.tmpl", "./.gitignore", ud)
-		TemplateHandling("templates/gitattributes.tmpl", "./.gitattributes", ud)
-		TemplateHandling("templates/c.meson.tmpl", "./meson.build", ud)
-		TemplateHandling("templates/README.tmpl", "./README.md", ud)
-		TemplateHandling("templates/main.c.tmpl", "./src/main.c", ud)
+		cFiles(ud)
+	}
+}
+
+func vcsHandling(ud UserData) {
+	switch ud.VCS {
+	case "hg":
+		hgFiles(ud)
+	case "git":
+		gitFiles(ud)
+	default:
+		fmt.Println("Defaulting to git!")
+		hgFiles(ud)
 	}
 }
 
@@ -175,6 +197,8 @@ func FileHandling(ud UserData) {
 	DirectoryCreation("./lib")
 	FileCreation(ud)
 	LicenseCreation(ud)
+	vcsHandling(ud)
+	TemplateHandling("templates/README.tmpl", "./README.md", ud)
 }
 
 func InitETR() {
