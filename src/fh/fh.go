@@ -11,6 +11,12 @@ import (
 	"time"
 )
 
+var GREEN string = "\033[38;5;184m"
+var ORANGE string = "\033[38;5;202m"
+var GRAY string = "\033[38;5;109m"
+var RED string = "\033[38;5;160m"
+var RESET string = "\033[0m"
+
 //go:embed templates
 var basefiles embed.FS
 
@@ -35,7 +41,7 @@ func isBetween(num, min, max int) bool {
 
 func ErrCheck(err error) {
 	if nil != err {
-		fmt.Printf("Error reading: %v\n", err)
+		fmt.Printf("Error: %v\n", err)
 		os.Exit(-1)
 	}
 }
@@ -57,24 +63,24 @@ func getData(ud *UserData) {
 	var err error
 
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("Project name:")
+	fmt.Printf(GREEN + "Project" + RESET + " name:")
 	ud.PJName, err = reader.ReadString('\n')
 	ErrCheck(err)
 	SanitizeStrings(&ud.PJName)
 
-	fmt.Print("Language:")
+	fmt.Printf(GREEN + "Language:" + RESET)
 	ud.Language, err = reader.ReadString('\n')
 	ErrCheck(err)
 	SanitizeStrings(&ud.Language)
 
-	fmt.Printf("License:\n")
-	fmt.Printf("\tBSD:\n\t[N]one\n")
+	fmt.Printf(GREEN + "License:\n" + RESET)
+	fmt.Printf("\t" + RED + "BSD:" + RESET + "\n\t[N]one\n")
 	fmt.Printf("Selection: ")
 	ud.License, err = reader.ReadString('\n')
 	ErrCheck(err)
 	SanitizeStrings(&ud.License)
 	if ud.License[0] == 'b' || ud.License[0] == 'B' {
-		fmt.Printf("Which BSD license do you want? ")
+		fmt.Printf("Which " + RED + "BSD" + RESET + " license do you want? ")
 		ud.LicNum, err = reader.ReadString('\n')
 		ErrCheck(err)
 		SanitizeStrings(&ud.LicNum)
@@ -84,12 +90,12 @@ func getData(ud *UserData) {
 		}
 	}
 
-	fmt.Print("Author:")
+	fmt.Print(GREEN + "Author:" + RESET)
 	ud.Author, err = reader.ReadString('\n')
 	ErrCheck(err)
 	SanitizeStrings(&ud.Author)
 
-	fmt.Print("Git or HG?")
+	fmt.Print(ORANGE + "Git" + RESET + " or " + GRAY + "HG?" + RESET)
 	ud.VCS, err = reader.ReadString('\n')
 	ErrCheck(err)
 	SanitizeStrings(&ud.VCS)
@@ -157,7 +163,7 @@ func FileCreation(ud UserData) {
 	case "go":
 		goFiles(ud)
 	default:
-		fmt.Println("Defaulting to C!")
+		fmt.Printf("\nDefaulting to C!\n")
 		cFiles(ud)
 	}
 }
