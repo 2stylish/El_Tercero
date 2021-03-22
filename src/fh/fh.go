@@ -128,11 +128,11 @@ func TemplateHandling(tmplPath, filePath string, ud UserData) {
 	t, err := template.ParseFS(basefiles, tmplPath)
 	ErrCheck(err)
 	f, err := os.Create(filePath)
+	defer f.Close()
 
 	ErrCheck(err)
 	err = t.Execute(f, ud)
 	ErrCheck(err)
-	defer f.Close()
 }
 
 func cFiles(ud UserData) {
@@ -208,10 +208,26 @@ func FileHandling(ud UserData) {
 }
 
 func InitETR() {
+	var empty UserData
 	if len(os.Args) > 1 {
-		fmt.Println("Who told you to put flags? lol")
-		fmt.Println("Exiting CUZ FUCK YOU")
-		os.Exit(-1)
+		switch os.Args[1] {
+		case "git":
+			fmt.Printf("Only creating" + GREEN + " gitignore" + RESET + " and" + GREEN + " gitattributes.\n" + RESET)
+			gitFiles(empty)
+			os.Exit(0)
+		case "hg":
+			fmt.Printf("Only creating" + GREEN + " hgignore.\n" + RESET)
+			hgFiles(empty)
+			os.Exit(0)
+		case "both":
+			fmt.Printf("Only creating" + GREEN + " gitignore, gitattributes" + RESET + " and" + GREEN + " hgignore.\n" + RESET)
+			hgFiles(empty)
+			gitFiles(empty)
+			os.Exit(0)
+		default:
+			fmt.Printf("If you're going to pass arguments, the only usage is for\nadding gitignore (and gittributes), hgignore or both of them.\n")
+			os.Exit(1)
+		}
 	}
 
 	var ud UserData
