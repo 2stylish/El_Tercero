@@ -1,0 +1,24 @@
+project('{{.PJName}}', 'cpp', default_options : ['warning_level=3', 'cpp_std=c++17'])
+
+add_global_arguments(language : 'cpp')
+cpp = meson.get_compiler('cpp')
+
+#Sample gl
+glfw = cpp.find_library('glfw3', required: true)
+ogl = cpp.find_library('GL', required: true)
+x = cpp.find_library('X11', required: true)
+thr = cpp.find_library('threads', required: true)
+xrdr = cpp.find_library('Xrandr', required: true)
+xi = cpp.find_library('Xi', required: true)
+dlib = cpp.find_library('dl', required : true)
+
+#Sample dependencies
+depz = [dependency('glfw'), dependency('GL'), dependency('X11'), dependency('threads'), xrdr, xi, dlib]
+
+#include dirs
+#libz = include_directories('lib')
+
+#main source
+srcs = ['src/main.cxx']
+
+executable('{{.PJName}}', srcs, dependencies : depz)

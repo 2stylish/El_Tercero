@@ -174,6 +174,10 @@ func vcsHandling(ud UserData) {
 		hgFiles(ud)
 	case "git":
 		gitFiles(ud)
+	case "both":
+		fmt.Println("Using HG and Git!")
+		gitFiles(ud)
+		hgFiles(ud)
 	default:
 		fmt.Println("Defaulting to git!")
 		hgFiles(ud)
