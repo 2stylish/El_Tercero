@@ -138,10 +138,12 @@ func TemplateHandling(tmplPath, filePath string, ud UserData) {
 func cFiles(ud UserData) {
 	TemplateHandling("templates/c.meson.tmpl", "./meson.build", ud)
 	TemplateHandling("templates/main.c.tmpl", "./src/main.c", ud)
+	TemplateHandling("templates/clang-format.tmpl", "./.clang-format")
 }
 func cppFiles(ud UserData) {
 	TemplateHandling("templates/cxx.meson.tmpl", "./meson.build", ud)
 	TemplateHandling("templates/main.cxx.tmpl", "./src/main.cxx", ud)
+	TemplateHandling("templates/clang-format.tmpl", "./.clang-format")
 }
 func goFiles(ud UserData) {
 	TemplateHandling("templates/main.go.tmpl", "./src/main.go", ud)
