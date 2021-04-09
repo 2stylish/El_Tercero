@@ -3,18 +3,22 @@ project('{{.PJName}}', 'cpp', default_options : ['warning_level=3', 'cpp_std=c++
 add_global_arguments(language : 'cpp')
 cpp = meson.get_compiler('cpp')
 
+#include dirs
+incdir = include_directories('include')
+
 #Sample built-in libs
-#mathl = cpp.find_library('m', required : true)
+#mathl = cpp.find_library('m', required : false)
 #runtimel = cpp.find_library('rt', required : true)
 #dlib = cpp.find_library('dl', required : true)
+#raylib = cpp.find_library('raylib', dirs:'{{.Pwd}}/lib', required: true)
+
 
 #Sample dependencies
-#depz = [dependency('raylib'), dependency('GL'), dependency('X11'), dependency('threads')]
-
-#include dirs
-#libz = include_directories('lib')
+#depz = [dependency('GL'), dependency('X11'), dependency('threads'), raylib, mathl, runtimel, dlib]
 
 #main source
 srcs = ['src/main.cxx']
+
+executable('{{.PJName}}', srcs, include_directories : incdir)
 
 executable('{{.PJName}}', srcs)

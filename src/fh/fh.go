@@ -28,6 +28,7 @@ type UserData struct {
 	Author   string
 	Year     string
 	VCS      string
+	Pwd      string
 }
 
 func isBetween(num, min, max int) bool {
@@ -61,6 +62,9 @@ func SanitizeStrings(dirtyString *string) {
 
 func getData(ud *UserData) {
 	var err error
+
+	ud.Pwd, err = os.Getwd()
+	ErrCheck(err)
 
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Printf(GREEN + "Project" + RESET + " name:")
@@ -138,12 +142,12 @@ func TemplateHandling(tmplPath, filePath string, ud UserData) {
 func cFiles(ud UserData) {
 	TemplateHandling("templates/c.meson.tmpl", "./meson.build", ud)
 	TemplateHandling("templates/main.c.tmpl", "./src/main.c", ud)
-	TemplateHandling("templates/clang-format.tmpl", "./.clang-format")
+	TemplateHandling("templates/clang-format.tmpl", "./.clang-format", ud)
 }
 func cppFiles(ud UserData) {
 	TemplateHandling("templates/cxx.meson.tmpl", "./meson.build", ud)
 	TemplateHandling("templates/main.cxx.tmpl", "./src/main.cxx", ud)
-	TemplateHandling("templates/clang-format.tmpl", "./.clang-format")
+	TemplateHandling("templates/clang-format.tmpl", "./.clang-format", ud)
 }
 func goFiles(ud UserData) {
 	TemplateHandling("templates/main.go.tmpl", "./src/main.go", ud)
@@ -205,8 +209,9 @@ func LicenseCreation(ud UserData) {
 }
 
 func FileHandling(ud UserData) {
-	DirectoryCreation("./src")
+	DirectoryCreation("./include")
 	DirectoryCreation("./lib")
+	DirectoryCreation("./src")
 	FileCreation(ud)
 	LicenseCreation(ud)
 	vcsHandling(ud)
