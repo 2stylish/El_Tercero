@@ -10,11 +10,9 @@ incdir = include_directories('include')
 #mathl = c.find_library('m', required : false)
 #runtimel = c.find_library('rt', required : true)
 #dlib = c.find_library('dl', required : true)
-#raylib = c.find_library('raylib', dirs: meson.current_source_dir() + '/lib',, required: true)
-
 
 #Sample dependencies
-#depz = [dependency('GL'), dependency('X11'), dependency('threads'), raylib, mathl, runtimel, dlib]
+#depz = [dependency('GL'), dependency('X11'), dependency('threads'), mathl, runtimel, dlib]
 
 #main source
 srcs = ['src/main.c']

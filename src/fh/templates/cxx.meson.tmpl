@@ -10,11 +10,9 @@ incdir = include_directories('include')
 #mathl = cpp.find_library('m', required : false)
 #runtimel = cpp.find_library('rt', required : true)
 #dlib = cpp.find_library('dl', required : true)
-#raylib = cpp.find_library('raylib', dirs:'{{.Pwd}}/lib', required: true)
-
 
 #Sample dependencies
-#depz = [dependency('GL'), dependency('X11'), dependency('threads'), raylib, mathl, runtimel, dlib]
+#depz = [dependency('GL'), dependency('X11'), dependency('threads'), mathl, runtimel, dlib]
 
 #main source
 srcs = ['src/main.cxx']
