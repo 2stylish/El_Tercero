@@ -10,7 +10,7 @@ incdir = include_directories('include')
 #mathl = c.find_library('m', required : false)
 #runtimel = c.find_library('rt', required : true)
 #dlib = c.find_library('dl', required : true)
-#raylib = c.find_library('raylib', dirs:'{{.Pwd}}/lib', required: true)
+#raylib = c.find_library('raylib', dirs: meson.current_source_dir() + '/lib',, required: true)
 
 
 #Sample dependencies

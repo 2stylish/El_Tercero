@@ -29,6 +29,7 @@ type UserData struct {
 	Year     string
 	VCS      string
 	Pwd      string
+	Build    string
 }
 
 func isBetween(num, min, max int) bool {
@@ -77,8 +78,13 @@ func getData(ud *UserData) {
 	ErrCheck(err)
 	SanitizeStrings(&ud.Language)
 
+	fmt.Printf(GREEN + "Build system:" + RESET)
+	ud.Build, err = reader.ReadString('\n')
+	ErrCheck(err)
+	SanitizeStrings(&ud.Build)
+
 	fmt.Printf(GREEN + "License:\n" + RESET)
-	fmt.Printf("\t" + RED + "BSD:" + RESET + "\n\t[N]one\n")
+	fmt.Printf("\t" + RED + "[B]SD:" + RESET + "\n\t" + ORANGE + "[G]PL:" + RESET + "\n\t[N]one\n")
 	fmt.Printf("Selection: ")
 	ud.License, err = reader.ReadString('\n')
 	ErrCheck(err)
@@ -92,6 +98,11 @@ func getData(ud *UserData) {
 		if !isBetween(dummy, 1, 5) {
 			fmt.Printf("Defaulting to BSD 3\n")
 		}
+	} else if ud.License[0] == 'g' || ud.License[0] == 'G' {
+		fmt.Printf("Which " + ORANGE + "GPL" + RESET + " license do you want? ")
+		ud.LicNum, err = reader.ReadString('\n')
+		ErrCheck(err)
+		SanitizeStrings(&ud.LicNum)
 	}
 
 	fmt.Print(GREEN + "Author:" + RESET)
@@ -140,12 +151,12 @@ func TemplateHandling(tmplPath, filePath string, ud UserData) {
 }
 
 func cFiles(ud UserData) {
-	TemplateHandling("templates/c.meson.tmpl", "./meson.build", ud)
+	BuildSystemC(ud)
 	TemplateHandling("templates/main.c.tmpl", "./src/main.c", ud)
 	TemplateHandling("templates/clang-format.tmpl", "./.clang-format", ud)
 }
 func cppFiles(ud UserData) {
-	TemplateHandling("templates/cxx.meson.tmpl", "./meson.build", ud)
+	BuildSystemCXX(ud)
 	TemplateHandling("templates/main.cxx.tmpl", "./src/main.cxx", ud)
 	TemplateHandling("templates/clang-format.tmpl", "./.clang-format", ud)
 }
@@ -174,6 +185,34 @@ func FileCreation(ud UserData) {
 	}
 }
 
+func BuildSystemC(ud UserData) {
+	switch ud.Build {
+	case "cmake":
+		TemplateHandling("templates/CMakeLists.tmpl", "./CMakeLists.txt", ud)
+	case "meson":
+		TemplateHandling("templates/c.meson.tmpl", "./meson.build", ud)
+	case "premake":
+		TemplateHandling("templates/premake5.tmpl", "./premake5.lua", ud)
+	default:
+		fmt.Printf("\nDefaulting to CMake!\n")
+		TemplateHandling("templates/CMakeLists.tmpl", "./CMakeLists.txt", ud)
+	}
+}
+
+func BuildSystemCXX(ud UserData) {
+	switch ud.Build {
+	case "cmake":
+		TemplateHandling("templates/CMakeLists.cxx.tmpl", "./CMakeLists.txt", ud)
+	case "meson":
+		TemplateHandling("templates/cxx.meson.tmpl", "./meson.build", ud)
+	case "premake":
+		TemplateHandling("templates/premake5.cxx.tmpl", "./premake5.lua", ud)
+	default:
+		fmt.Printf("\nDefaulting to CMake!\n")
+		TemplateHandling("templates/CMakeLists.cxx.tmpl", "./CMakeLists.txt", ud)
+	}
+}
+
 func vcsHandling(ud UserData) {
 	switch ud.VCS {
 	case "hg":
@@ -192,6 +231,33 @@ func vcsHandling(ud UserData) {
 
 func LicenseCreation(ud UserData) {
 	switch ud.License {
+	case "gpl":
+		switch ud.LicNum {
+		case "2":
+			TemplateHandling("templates/gpl2.tmpl", "./LICENSE", ud)
+		case "2 or later":
+			TemplateHandling("templates/gpl2orl.tmpl", "./LICENSE", ud)
+		case "3":
+			TemplateHandling("templates/gpl3.tmpl", "./LICENSE", ud)
+		case "3 or later":
+			TemplateHandling("templates/gpl3orl.tmpl", "./LICENSE", ud)
+		default:
+			TemplateHandling("templates/gpl3.tmpl", "./LICENSE", ud)
+		}
+	case "g":
+		switch ud.LicNum {
+		case "2":
+			TemplateHandling("templates/gpl2.tmpl", "./LICENSE", ud)
+		case "2 or later":
+			TemplateHandling("templates/gpl2orl.tmpl", "./LICENSE", ud)
+		case "3":
+			TemplateHandling("templates/gpl3.tmpl", "./LICENSE", ud)
+		case "3 or later":
+			TemplateHandling("templates/gpl3orl.tmpl", "./LICENSE", ud)
+		default:
+			TemplateHandling("templates/gpl3.tmpl", "./LICENSE", ud)
+		}
+
 	case "bsd":
 		switch ud.LicNum {
 		case "1":
@@ -205,6 +271,22 @@ func LicenseCreation(ud UserData) {
 		default:
 			TemplateHandling("templates/bsd3.tmpl", "./LICENSE", ud)
 		}
+	case "b":
+		switch ud.LicNum {
+		case "1":
+			TemplateHandling("templates/bsd1.tmpl", "./LICENSE", ud)
+		case "2":
+			TemplateHandling("templates/bsd1.tmpl", "./LICENSE", ud)
+		case "3":
+			TemplateHandling("templates/bsd1.tmpl", "./LICENSE", ud)
+		case "4":
+			TemplateHandling("templates/bsd1.tmpl", "./LICENSE", ud)
+		default:
+			TemplateHandling("templates/bsd3.tmpl", "./LICENSE", ud)
+		}
+	default:
+		fmt.Println("Defaulting to GPL3")
+		TemplateHandling("templates/gpl3.tmpl", "./LICENSE", ud)
 	}
 }
 
