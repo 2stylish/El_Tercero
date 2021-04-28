@@ -11,4 +11,5 @@ tasks:
 
   install:
     cmds:
+      task: release
       - cp ./bin/etr ~/go/bin/

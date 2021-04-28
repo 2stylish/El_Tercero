@@ -5,6 +5,9 @@ This is the project initializer used internally at Robopill,
  and it guides you when you run it, so, no real
  need for a true readme, just run etr!
 
+If you have Task (https://github.com/go-task/task) installed, just run [task install] otherwise run [go build  -o bin/etr -ldflags="-s -w" src/etr.go] then copy it to somewhere in your [$PATH]
+
+
  Supported answers
 | Question       | Valid Answers                                                      | Notes                                                    |
 | -------------- | ------------------------------------------------------------------ | -------------------------------------------------------- |
