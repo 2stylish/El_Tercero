@@ -7,6 +7,7 @@ This is the project initializer used internally at Robopill,
 
  If you have [Task](https://github.com/go-task/task) installed, just run ```task install``` otherwise run ```go build  -o bin/etr -ldflags="-s -w" src/etr.go``` then copy it to somewhere in your ```$PATH```
  
+ ![img](./img/example.png)
  
  Supported answers
 | Question     | Valid Answers                                                           | Notes                                                  |
