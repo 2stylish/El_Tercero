@@ -86,7 +86,7 @@ func getData(ud *UserData) {
 	}
 
 	fmt.Printf(GREEN + "License:\n" + RESET)
-	fmt.Printf("\t" + RED + "[B]SD:" + RESET + "\n\t" + ORANGE + "[G]PL:" + RESET + "\n\t[N]one\n")
+	fmt.Printf("\t" + RED + "[B]SD:" + RESET + "\n\t" + ORANGE + "[G]PL:" + RESET + "\n\tMIT\n\t[N]one\n")
 	fmt.Printf("Selection: ")
 	ud.License, err = reader.ReadString('\n')
 	ErrCheck(err)
@@ -303,6 +303,8 @@ func LicenseCreation(ud UserData) {
 		default:
 			TemplateHandling("templates/bsd3.tmpl", "./LICENSE", ud)
 		}
+	case "mit":
+		TemplateHandling("templates/mit.tmpl", "./LICENSE", ud)
 	default:
 		fmt.Println("Defaulting to GPL3")
 		TemplateHandling("templates/gpl3.tmpl", "./LICENSE", ud)
@@ -337,7 +339,7 @@ func InitETR() {
 			gitFiles(empty)
 			os.Exit(0)
 		default:
-			fmt.Printf("If you're going to pass arguments, the only usage is for\nadding gitignore (and gittributes), hgignore or both of them.\n")
+			fmt.Printf("If you're going to pass arguments, the only usage is for\nadding gitignore (and gittributes), hgignore or both of them.\n\nDo so by typing 'etr " + GREEN + "hg" + RESET + "|" + GREEN + "git" + RESET + "|" + GREEN + "both'" + RESET + "\n")
 			os.Exit(1)
 		}
 	}
