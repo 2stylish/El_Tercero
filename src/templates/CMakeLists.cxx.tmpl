@@ -1,0 +1,42 @@
+cmake_minimum_required(VERSION 3.19)
+
+# set the project name
+project({{.PJName}} CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED on)
+
+set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra -Wpedantic")
+set(CMAKE_CXX_FLAGS_MINSIZEREL "-Os -s -Wall -Wextra -Wpedantic")
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Og -Wall -Wextra -Wpedantic")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -Wextra -Wpedantic")
+
+# add_subdirectory(...)
+
+SET(SRCS 
+  src/main.cxx
+  )
+
+SET(DEPZ 
+  pthread 
+  m 
+  rt 
+  dl
+  )
+
+SET(WINDEPZ
+  winmm
+  )
+
+#include_directories(./include)
+
+# add the executable
+add_executable({{.PJName}} ${SRCS})
+
+if (UNIX)
+target_link_libraries( {{.PJName}}${DEPZ})
+endif(UNIX)
+
+if (WIN32)
+target_link_libraries({{.PJName}} ${WINDEPZ})
+endif(WIN32)

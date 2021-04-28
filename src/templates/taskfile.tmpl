@@ -1,0 +1,15 @@
+version: '3'
+
+tasks:
+  build:
+    cmds:
+      - go build -o bin/etr src/main.go 
+
+  release:
+    cmds: 
+      - go build  -o bin/main -ldflags="-s -w" src/main.go
+
+  install:
+    cmds:
+      - task: release
+      - cp ./bin/main ~/go/bin/

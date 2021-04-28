@@ -1,0 +1,27 @@
+workspace "{{.PJName}}"
+configurations { "Debug", "Release"}
+
+project "{{.PJName}}"
+    kind "ConsoleApp"
+    language "C"
+    location "build"
+
+    targetdir "bin/%{cfg.buildcfg}"
+
+    files { "src/main.c" }
+
+    links { "m", "pthread", "dl", "rt" }
+
+--    includedirs {"./include"}
+
+    filter "configurations:Debug"
+        defines { "DEBUG" }
+        symbols "On"
+
+    filter "configurations:Release"
+        defines { "NDEBUG" }
+        optimize "Full"
+    
+    filter "action:vs*"
+        defines{"_WINSOCK_DEPRECATED_NO_WARNINGS", "_CRT_SECURE_NO_WARNINGS", "_WIN32"}
+        links { "winmm" }
