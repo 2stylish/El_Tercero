@@ -78,10 +78,12 @@ func getData(ud *UserData) {
 	ErrCheck(err)
 	SanitizeStrings(&ud.Language)
 
-	fmt.Printf(GREEN + "Build system:" + RESET)
-	ud.Build, err = reader.ReadString('\n')
-	ErrCheck(err)
-	SanitizeStrings(&ud.Build)
+	if ud.Language != "go" {
+		fmt.Printf(GREEN + "Build system:" + RESET)
+		ud.Build, err = reader.ReadString('\n')
+		ErrCheck(err)
+		SanitizeStrings(&ud.Build)
+	}
 
 	fmt.Printf(GREEN + "License:\n" + RESET)
 	fmt.Printf("\t" + RED + "[B]SD:" + RESET + "\n\t" + ORANGE + "[G]PL:" + RESET + "\n\t[N]one\n")
@@ -116,6 +118,9 @@ func getData(ud *UserData) {
 	SanitizeStrings(&ud.VCS)
 }
 
+/********************************
+ * File and directories
+ ********************************/
 func DirectoryCreation(patheroo string) {
 	_, err := os.Stat(patheroo)
 	if true == os.IsNotExist(err) {
@@ -134,57 +139,9 @@ func FileExistence(patheroo string) bool {
 	}
 }
 
-func TemplateHandling(tmplPath, filePath string, ud UserData) {
-	if !FileExistence(filePath) {
-		fmt.Printf("File %s already exists\n", strings.ReplaceAll(filePath, "./", ""))
-		return
-	}
-
-	t, err := template.ParseFS(basefiles, tmplPath)
-	ErrCheck(err)
-	f, err := os.Create(filePath)
-	defer f.Close()
-
-	ErrCheck(err)
-	err = t.Execute(f, ud)
-	ErrCheck(err)
-}
-
-func cFiles(ud UserData) {
-	BuildSystemC(ud)
-	TemplateHandling("templates/main.c.tmpl", "./src/main.c", ud)
-	TemplateHandling("templates/clang-format.tmpl", "./.clang-format", ud)
-}
-func cppFiles(ud UserData) {
-	BuildSystemCXX(ud)
-	TemplateHandling("templates/main.cxx.tmpl", "./src/main.cxx", ud)
-	TemplateHandling("templates/clang-format.tmpl", "./.clang-format", ud)
-}
-func goFiles(ud UserData) {
-	TemplateHandling("templates/main.go.tmpl", "./src/main.go", ud)
-}
-func gitFiles(ud UserData) {
-	TemplateHandling("templates/gitignore.tmpl", "./.gitignore", ud)
-	TemplateHandling("templates/gitattributes.tmpl", "./.gitattributes", ud)
-}
-func hgFiles(ud UserData) {
-	TemplateHandling("templates/hgignore.tmpl", "./.hgignore", ud)
-}
-
-func FileCreation(ud UserData) {
-	switch ud.Language {
-	case "c":
-		cFiles(ud)
-	case "cpp":
-		cppFiles(ud)
-	case "go":
-		goFiles(ud)
-	default:
-		fmt.Printf("\nDefaulting to C!\n")
-		cFiles(ud)
-	}
-}
-
+/********************************
+ * Build systems
+ ********************************/
 func BuildSystemC(ud UserData) {
 	switch ud.Build {
 	case "cmake":
@@ -213,6 +170,29 @@ func BuildSystemCXX(ud UserData) {
 	}
 }
 
+/********************************
+ * templates
+ ********************************/
+
+func TemplateHandling(tmplPath, filePath string, ud UserData) {
+	if !FileExistence(filePath) {
+		fmt.Printf("File %s already exists\n", strings.ReplaceAll(filePath, "./", ""))
+		return
+	}
+
+	t, err := template.ParseFS(basefiles, tmplPath)
+	ErrCheck(err)
+	f, err := os.Create(filePath)
+	defer f.Close()
+
+	ErrCheck(err)
+	err = t.Execute(f, ud)
+	ErrCheck(err)
+}
+
+/********************************
+ * version control system
+ ********************************/
 func vcsHandling(ud UserData) {
 	switch ud.VCS {
 	case "hg":
@@ -226,6 +206,45 @@ func vcsHandling(ud UserData) {
 	default:
 		fmt.Println("Defaulting to git!")
 		hgFiles(ud)
+	}
+}
+func gitFiles(ud UserData) {
+	TemplateHandling("templates/gitignore.tmpl", "./.gitignore", ud)
+	TemplateHandling("templates/gitattributes.tmpl", "./.gitattributes", ud)
+}
+func hgFiles(ud UserData) {
+	TemplateHandling("templates/hgignore.tmpl", "./.hgignore", ud)
+}
+
+/********************************
+ * Language files
+ ********************************/
+func cFiles(ud UserData) {
+	BuildSystemC(ud)
+	TemplateHandling("templates/main.c.tmpl", "./src/main.c", ud)
+	TemplateHandling("templates/clang-format.tmpl", "./.clang-format", ud)
+}
+func cppFiles(ud UserData) {
+	BuildSystemCXX(ud)
+	TemplateHandling("templates/main.cxx.tmpl", "./src/main.cxx", ud)
+	TemplateHandling("templates/clang-format.tmpl", "./.clang-format", ud)
+}
+func goFiles(ud UserData) {
+	TemplateHandling("templates/taskfile.tmpl", "./Taskfile.yml", ud)
+	TemplateHandling("templates/main.go.tmpl", "./src/main.go", ud)
+}
+
+func FileCreation(ud UserData) {
+	switch ud.Language {
+	case "c":
+		cFiles(ud)
+	case "cpp":
+		cppFiles(ud)
+	case "go":
+		goFiles(ud)
+	default:
+		fmt.Printf("\nDefaulting to C!\n")
+		cFiles(ud)
 	}
 }
 
