@@ -15,15 +15,10 @@ This is the project initializer used internally at Robopill,
 | Build system | ```cmake```, ```meson```, ```premake```                          | Go defaults to [Task](https://github.com/go-task/task) |
 |--------------|------------------------------------------------------------------|--------------------------------------------------------|
 | License      | For bsd: ```b```, ```bsd```                                      |                                                        |
-|              |                                                                  |                                                        |
 |              | Numbers: ```1```, ```2```, ```3```, ```4```                      |                                                        |
-|              |                                                                  |                                                        |
 |              | For gpl: ```g```, ```gpl```                                      |                                                        |
-|              |                                                                  |                                                        |
 |              | Numbers: ```2```, ```2 or later```, ```3, ```3 or later```       |                                                        |
-|              |                                                                  |                                                        |
 |              | For mit: ```mit```                                               |                                                        |
-|              |                                                                  |                                                        |
 |--------------|------------------------------------------------------------------|--------------------------------------------------------|
 | Author       | ```Again, you have to email me with your name and                |                                                        |
 |              | before you use it ```                                            |                                                        |
