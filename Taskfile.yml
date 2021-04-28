@@ -3,13 +3,13 @@ version: '3'
 tasks:
   build:
     cmds:
-      - go build -o bin/etr src/etr.go 
+      - go build -o bin/etr src/*.go 
 
   release:
     cmds: 
-      - go build  -o bin/etr -ldflags="-s -w" src/etr.go
+      - go build  -o bin/etr -ldflags="-s -w" src/*.go
 
   install:
     cmds:
-      task: release
+      - task: release
       - cp ./bin/etr ~/go/bin/
