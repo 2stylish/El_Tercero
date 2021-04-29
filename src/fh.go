@@ -68,18 +68,18 @@ func getData(ud *UserData) {
 	ErrCheck(err)
 
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Printf(GREEN + "Project" + RESET + " name:")
+	fmt.Printf(GREEN + "Project" + RESET + " name: ")
 	ud.PJName, err = reader.ReadString('\n')
 	ErrCheck(err)
 	SanitizeStrings(&ud.PJName)
 
-	fmt.Printf(GREEN + "Language:" + RESET)
+	fmt.Printf(GREEN + "Language: " + RESET)
 	ud.Language, err = reader.ReadString('\n')
 	ErrCheck(err)
 	SanitizeStrings(&ud.Language)
 
 	if ud.Language != "go" && ud.Language != "rs" && ud.Language != "rust" {
-		fmt.Printf(GREEN + "Build system:" + RESET)
+		fmt.Printf(GREEN + "Build system: " + RESET)
 		ud.Build, err = reader.ReadString('\n')
 		ErrCheck(err)
 		SanitizeStrings(&ud.Build)
@@ -107,12 +107,12 @@ func getData(ud *UserData) {
 		SanitizeStrings(&ud.LicNum)
 	}
 
-	fmt.Print(GREEN + "Author:" + RESET)
+	fmt.Print(GREEN + "Author: " + RESET)
 	ud.Author, err = reader.ReadString('\n')
 	ErrCheck(err)
 	SanitizeStrings(&ud.Author)
 
-	fmt.Print(ORANGE + "Git" + RESET + " or " + GRAY + "HG?" + RESET)
+	fmt.Print(ORANGE + "Git" + RESET + " or " + GRAY + "HG? " + RESET)
 	ud.VCS, err = reader.ReadString('\n')
 	ErrCheck(err)
 	SanitizeStrings(&ud.VCS)
