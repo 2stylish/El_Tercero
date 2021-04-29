@@ -242,19 +242,11 @@ func FileCreation(ud UserData) {
 	switch ud.Language {
 	case "c":
 		cFiles(ud)
-	case "C":
-		cFiles(ud)
 	case "cpp":
-		cppFiles(ud)
-	case "CPP":
 		cppFiles(ud)
 	case "go":
 		goFiles(ud)
-	case "golang":
-		goFiles(ud)
 	case "rs":
-		rsFiles(ud)
-	case "rust":
 		rsFiles(ud)
 	default:
 		fmt.Printf("\nDefaulting to C!\n")
@@ -326,7 +318,9 @@ func LicenseCreation(ud UserData) {
 }
 
 func FileHandling(ud UserData) {
-	DirectoryCreation("./include")
+	if ud.Language == "c" || ud.Language == "cpp" {
+		DirectoryCreation("./include")
+	}
 	DirectoryCreation("./lib")
 	DirectoryCreation("./src")
 	FileCreation(ud)
