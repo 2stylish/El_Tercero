@@ -235,6 +235,7 @@ func goFiles(ud UserData) {
 }
 func rsFiles(ud UserData) {
 	TemplateHandling("templates/main.rs.tmpl", "./src/main.rs", ud)
+	TemplateHandling("templates/rustfmt.toml.tmpl", "./rustfmt.toml", ud)
 	TemplateHandling("templates/cargo.toml.tmpl", "./Cargo.toml", ud)
 }
 
