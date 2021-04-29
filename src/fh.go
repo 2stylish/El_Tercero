@@ -78,7 +78,7 @@ func getData(ud *UserData) {
 	ErrCheck(err)
 	SanitizeStrings(&ud.Language)
 
-	if ud.Language != "go" {
+	if ud.Language != "go" && ud.Language != "rs" && ud.Language != "rust" {
 		fmt.Printf(GREEN + "Build system:" + RESET)
 		ud.Build, err = reader.ReadString('\n')
 		ErrCheck(err)
@@ -233,15 +233,29 @@ func goFiles(ud UserData) {
 	TemplateHandling("templates/taskfile.tmpl", "./Taskfile.yml", ud)
 	TemplateHandling("templates/main.go.tmpl", "./src/main.go", ud)
 }
+func rsFiles(ud UserData) {
+	TemplateHandling("templates/main.rs.tmpl", "./src/main.rs", ud)
+	TemplateHandling("templates/cargo.toml.tmpl", "./Cargo.toml", ud)
+}
 
 func FileCreation(ud UserData) {
 	switch ud.Language {
 	case "c":
 		cFiles(ud)
+	case "C":
+		cFiles(ud)
 	case "cpp":
+		cppFiles(ud)
+	case "CPP":
 		cppFiles(ud)
 	case "go":
 		goFiles(ud)
+	case "golang":
+		goFiles(ud)
+	case "rs":
+		rsFiles(ud)
+	case "rust":
+		rsFiles(ud)
 	default:
 		fmt.Printf("\nDefaulting to C!\n")
 		cFiles(ud)
