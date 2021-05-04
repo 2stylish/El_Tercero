@@ -312,6 +312,8 @@ func LicenseCreation(ud UserData) {
 		}
 	case "mit":
 		TemplateHandling("templates/mit.tmpl", "./LICENSE", ud)
+	case "n":
+		fmt.Println("No license!")
 	default:
 		fmt.Println("Defaulting to GPL3")
 		TemplateHandling("templates/gpl3.tmpl", "./LICENSE", ud)
