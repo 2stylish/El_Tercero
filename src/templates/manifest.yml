@@ -1,0 +1,13 @@
+image: alpine/edge
+packages:
+  - cmake
+  - meson
+sources:
+  - https://git.sr.ht/~hyakuburns/{{.PJName}}
+tasks:
+  - setup: |
+      cd {{PJName}}
+      meson build 
+  - build: |
+      cd {{.PJName}}
+      ninja -C build
