@@ -1,5 +1,6 @@
+
 #+OPTIONS: toc:2          
-* El_tercero
+* El tercero
 
 This is the project initializer used internally at Robopill,
 nothing too amazing, the template files are embedded 
@@ -33,3 +34,8 @@ If you have [[https://github.com/go-task/task][Task]] installed, just run ~task 
 | Git or HG?   | ~git~, ~hg~, ~both~                                                    |                                                                |
 |--------------+------------------------------------------------------------------+----------------------------------------------------------------|
 
+*** Aditional Notes
+    + Sets up clang-format with google style
+    + It sets up compile-commands exporting in CMake (meson has it by default and premake can't do that)
+    + It sets up rustfmt with sane defaults
+    + Sets up ZLS for zig

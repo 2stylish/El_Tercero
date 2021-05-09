@@ -1,12 +1,12 @@
 
 # Table of Contents
 
-1.  [El tercero](#org4d3f614)
-    1.  [Supported answers](#orgcab0b47)
+1.  [El tercero](#orga50414f)
+    1.  [Supported answers](#org4e8de3b)
 
 
 
-<a id="org4d3f614"></a>
+<a id="orga50414f"></a>
 
 # El tercero
 
@@ -21,7 +21,7 @@ need for a true readme, just run `etr`!
 If you have [Task](https://github.com/go-task/task) installed, just run `task install` otherwise run `go build  -o bin/etr -ldflags="-s -w" src/etr.go` then copy it to somewhere in your `$PATH`
 
 
-<a id="orgcab0b47"></a>
+<a id="org4e8de3b"></a>
 
 ## Supported answers
 
@@ -133,4 +133,12 @@ If you have [Task](https://github.com/go-task/task) installed, just run `task in
 </tr>
 </tbody>
 </table>
+
+
+### Aditional Notes
+
+-   Sets up clang-format with google style
+-   It sets up compile-commands exporting in CMake (meson has it by default and premake can't do that)
+-   It sets up rustfmt with sane defaults
+-   Sets up ZLS for zig
 
