@@ -78,7 +78,7 @@ func getData(ud *UserData) {
 	ErrCheck(err)
 	SanitizeStrings(&ud.Language)
 
-	if ud.Language != "go" && ud.Language != "rs" && ud.Language != "rust" {
+	if ud.Language != "go" && ud.Language != "rs" && ud.Language != "zig" {
 		fmt.Printf(GREEN + "Build system: " + RESET)
 		ud.Build, err = reader.ReadString('\n')
 		ErrCheck(err)
@@ -170,6 +170,10 @@ func BuildSystemCXX(ud UserData) {
 	}
 }
 
+func BuildSystemZig(ud UserData) {
+	TemplateHandling("templates/buildzig.tmpl", "./build.zig", ud)
+}
+
 /********************************
  * templates
  ********************************/
@@ -238,6 +242,11 @@ func rsFiles(ud UserData) {
 	TemplateHandling("templates/rustfmt.toml.tmpl", "./rustfmt.toml", ud)
 	TemplateHandling("templates/cargo.toml.tmpl", "./Cargo.toml", ud)
 }
+func zigFiles(ud UserData) {
+	TemplateHandling("templates/mainzig.tmpl", "./src/main.zig", ud)
+	TemplateHandling("templates/zlsjson.tmpl", "./zls.json", ud)
+	BuildSystemZig(ud)
+}
 
 func FileCreation(ud UserData) {
 	switch ud.Language {
@@ -249,6 +258,8 @@ func FileCreation(ud UserData) {
 		goFiles(ud)
 	case "rs":
 		rsFiles(ud)
+	case "zig":
+		zigFiles(ud)
 	default:
 		fmt.Printf("\nDefaulting to C!\n")
 		cFiles(ud)
