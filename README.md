@@ -1,14 +1,14 @@
 
 # Table of Contents
 
-1.  [El<sub>tercero</sub>](#org4d3f614)
+1.  [El tercero](#org4d3f614)
     1.  [Supported answers](#orgcab0b47)
 
 
 
 <a id="org4d3f614"></a>
 
-# El<sub>tercero</sub>
+# El tercero
 
 This is the project initializer used internally at Robopill,
 nothing too amazing, the template files are embedded 
