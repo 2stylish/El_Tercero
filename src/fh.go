@@ -337,6 +337,7 @@ func FileHandling(ud UserData) {
 	}
 	DirectoryCreation("./lib")
 	DirectoryCreation("./src")
+	DirectoryCreation("./tests")
 	FileCreation(ud)
 	LicenseCreation(ud)
 	vcsHandling(ud)
