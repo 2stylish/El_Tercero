@@ -11,7 +11,12 @@ AND it guides you when you run it, so, no real
 need for a true readme, just run ~etr~!
 
 If you have [[https://github.com/go-task/task][Task]] installed, just run ~task install~ otherwise run ~go build  -o bin/etr -ldflags="-s -w" src/etr.go~ then copy it to somewhere in your ~$PATH~
- 
+**** Quick note
++ You shouldn't run binaries from the internet, even if it's from an open source project, 
+so I encourage you to
+compile it yourself, anyways, if you still want to run the binaries compiled
+by a stranger you can download:
+[[https://github.com/hyakuburns/El_Tercero/releases][here]].
 ** Supported answers
 | Question     | Valid Answers                                                    | Notes                                                          |
 |--------------+------------------------------------------------------------------+----------------------------------------------------------------|

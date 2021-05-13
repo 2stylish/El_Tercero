@@ -7,9 +7,74 @@ tasks:
 
   release:
     cmds: 
-      - go build  -o bin/etr -ldflags="-s -w" src/*.go
+      - go build -o bin/etr -ldflags="-s -w" src/*.go
 
   install:
     cmds:
       - task: release
       - cp ./bin/etr ~/go/bin/
+  i386:
+    cmds:
+      - env GOOS=plan9 GOARCH=386 go build -o releases/plan9386/etr src/*.go
+      - tar -czvf releases/plan9386.tar.gz releases/plan9386/etr
+      
+      - env GOOS=freebsd GOARCH=386 go build -o releases/freebsd386/etr src/*.go
+      - tar -czvf releases/freebsd386.tar.gz releases/freebsd386/etr
+
+      - env GOOS=openbsd GOARCH=386 go build -o releases/openbsd386/etr src/*.go
+      - tar -czvf releases/openbsd386.tar.gz releases/openbsd386/etr
+     
+      - env GOOS=windows GOARCH=386 go build -o releases/windows386/etr.exe src/*.go
+      - zip releases/windows386.zip releases/windows386/etr.exe
+      
+      - env GOOS=linux GOARCH=386 go build -o releases/linux386/etr src/*.go
+      - tar -czvf releases/linux386.tar.gz releases/linux386/etr
+      
+  arm:
+    cmds:
+      - task: i386
+      - env GOOS=plan9 GOARCH=arm go build -o releases/plan9ARM/etr src/*.go
+      - tar -czvf releases/plan9ARM.tar.gz releases/plan9ARM/etr
+      
+      - env GOOS=darwin GOARCH=arm64 go build -o releases/darwinARM64/etr src/*.go
+      - tar -czvf releases/darwinARM64.tar.gz releases/darwinARM64/etr
+      
+      - env GOOS=freebsd GOARCH=arm go build -o releases/freebsdARM/etr src/*.go
+      - tar -czvf releases/freebsdARM.tar.gz releases/freebsdARM/etr
+      - env GOOS=freebsd GOARCH=arm64 go build -o releases/freebsdARM64/etr src/*.go
+      - tar -czvf releases/freebsdARM64.tar.gz releases/freebsdARM64/etr
+
+      - env GOOS=openbsd GOARCH=arm go build -o releases/openbsdARM/etr src/*.go
+      - tar -czvf releases/openbsdARM.tar.gz releases/openbsdARM/etr
+      - env GOOS=openbsd GOARCH=arm64 go build -o releases/openbsdARM64/etr src/*.go
+      - tar -czvf releases/openbsdARM64.tar.gz releases/openbsdARM64/etr
+
+      - env GOOS=windows GOARCH=arm go build -o releases/windowsARM/etr.exe src/*.go
+      - zip releases/windowsARM.zip releases/windowsARM/etr.exe
+      
+      - env GOOS=linux GOARCH=arm go build -o releases/linuxARM/etr src/*.go
+      - tar -czvf releases/linuxARM.tar.gz releases/linuxARM/etr
+      - env GOOS=linux GOARCH=arm64 go build -o releases/linuxARM64/etr src/*.go
+      - tar -czvf releases/linuxARM64.tar.gz releases/linuxARM64/etr
+
+  cross:
+    cmds:
+      - task: arm
+      
+      - env GOOS=plan9 GOARCH=amd64 go build -o releases/plan9AMD64/etr src/*.go
+      - tar -czvf releases/plan9AMD64.tar.gz releases/plan9AMD64/etr
+
+      - env GOOS=darwin GOARCH=amd64 go build -o releases/macosAMD64/etr src/*.go
+      - tar -czvf releases/macosAMD64.tar.gz releases/macosAMD64/etr
+     
+      - env GOOS=freebsd GOARCH=amd64 go build -o releases/freebsdAMD64/etr src/*.go
+      - tar -czvf releases/freebsdAMD64.tar.gz releases/freebsdAMD64/etr
+
+      - env GOOS=openbsd GOARCH=amd64 go build -o releases/openbsdAMD64/etr src/*.go
+      - tar -czvf releases/openbsdAMD64.tar.gz releases/openbsdAMD64/etr
+      
+      - env GOOS=windows GOARCH=amd64 go build -o releases/windowsamd64/etr.exe src/*.go
+      - zip releases/windowsAMD64.zip releases/windowsamd64/etr.exe
+
+      - env GOOS=linux GOARCH=amd64 go build -o releases/etr src/*.go
+      - tar -czvf releases/linuxAMD64.tar.gz releases/etr
