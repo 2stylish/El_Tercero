@@ -1,12 +1,12 @@
 
 # Table of Contents
 
-1.  [El tercero](#org165a4e5)
-    1.  [Supported answers](#org717ae2b)
+1.  [El tercero](#org4a419b5)
+    1.  [Supported answers](#org050963f)
 
 
 
-<a id="org165a4e5"></a>
+<a id="org4a419b5"></a>
 
 # El tercero
 
@@ -22,15 +22,14 @@ If you have [Task](https://github.com/go-task/task) installed, just run `task in
 
 1.  Quick note
 
-    -   You shouldn't run binaries from the internet, even if it's from an open source project,
-    
+    You shouldn't run binaries from the internet, even if it's from an open source project, 
     so I encourage you to
     compile it yourself, anyways, if you still want to run the binaries compiled
     by a stranger you can download:
     [here](https://github.com/hyakuburns/El_Tercero/releases).
 
 
-<a id="org717ae2b"></a>
+<a id="org050963f"></a>
 
 ## Supported answers
 
