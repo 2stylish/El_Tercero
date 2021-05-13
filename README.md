@@ -1,12 +1,12 @@
 
 # Table of Contents
 
-1.  [El tercero](#orga50414f)
-    1.  [Supported answers](#org4e8de3b)
+1.  [El tercero](#org165a4e5)
+    1.  [Supported answers](#org717ae2b)
 
 
 
-<a id="orga50414f"></a>
+<a id="org165a4e5"></a>
 
 # El tercero
 
@@ -20,8 +20,17 @@ need for a true readme, just run `etr`!
 
 If you have [Task](https://github.com/go-task/task) installed, just run `task install` otherwise run `go build  -o bin/etr -ldflags="-s -w" src/etr.go` then copy it to somewhere in your `$PATH`
 
+1.  Quick note
 
-<a id="org4e8de3b"></a>
+    -   You shouldn't run binaries from the internet, even if it's from an open source project,
+    
+    so I encourage you to
+    compile it yourself, anyways, if you still want to run the binaries compiled
+    by a stranger you can download:
+    [here](https://github.com/hyakuburns/El_Tercero/releases).
+
+
+<a id="org717ae2b"></a>
 
 ## Supported answers
 
