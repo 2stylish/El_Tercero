@@ -1,0 +1,40 @@
+cmake_minimum_required(VERSION 3.19)
+
+# set the project name
+project({{.PJName}} C)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD_REQUIRED on)
+
+set(CMAKE_C_FLAGS_DEBUG "-g -Wall -Wextra -Wpedantic")
+set(CMAKE_C_FLAGS_MINSIZEREL "-Os -s -Wall -Wextra -Wpedantic")
+set(CMAKE_C_FLAGS_RELWITHDEBINFO "-Og -Wall -Wextra -Wpedantic")
+set(CMAKE_C_FLAGS_RELEASE "-O3 -Wall -Wextra -Wpedantic")
+
+# add_subdirectory(...)
+
+SET(SRCS 
+  src/main.c 
+  )
+
+SET(DEPS
+  )
+
+SET(WINDEPZ
+  winmm
+  )
+
+#include_directories(./include)
+
+# add the executable
+add_library({{.PJName}} STATIC ${SRCS})
+
+#if (UNIX)
+#target_link_libraries( {{.PJName}}${DEPZ})
+#endif(UNIX)
+
+#if (WIN32)
+#target_link_libraries({{.PJName}} ${WINDEPZ})
+#endif(WIN32)
