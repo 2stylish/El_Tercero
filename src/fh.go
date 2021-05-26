@@ -1,5 +1,11 @@
 package main
 
+/*
+BIG: FAT: FUCKING: TODO:
+FINISH ADDING SUPPORT FOR DA MOFUKING LIBRARIEEEEEEEEEES
+and also make it so the main file is named after the project?
+*/
+
 import (
 	"bufio"
 	"embed"
@@ -21,15 +27,17 @@ var RESET string = "\033[0m"
 var basefiles embed.FS
 
 type UserData struct {
-	PJName   string
-	Language string
-	License  string
-	LicNum   string
-	Author   string
-	Year     string
-	VCS      string
-	Pwd      string
-	Build    string
+	PJName    string
+	Language  string
+	License   string
+	LicNum    string
+	Author    string
+	Year      string
+	VCS       string
+	Pwd       string
+	Build     string
+	Lib       bool
+	LibString string
 }
 
 func isBetween(num, min, max int) bool {
@@ -83,6 +91,15 @@ func getData(ud *UserData) {
 		ud.Build, err = reader.ReadString('\n')
 		ErrCheck(err)
 		SanitizeStrings(&ud.Build)
+		fmt.Printf(GREEN + "Is this a library?\n\t[Y]es | [N]o\n" + RESET)
+		ud.LibString, err = reader.ReadString('\n')
+		ErrCheck(err)
+		SanitizeStrings(&ud.LibString)
+		if ud.LibString == "yes" || ud.LibString == "y" || ud.LibString == "Y" {
+			ud.Lib = true
+		} else {
+			ud.Lib = false
+		}
 	}
 
 	fmt.Printf(GREEN + "License:\n" + RESET)
@@ -159,7 +176,11 @@ func BuildSystemC(ud UserData) {
 func BuildSystemCXX(ud UserData) {
 	switch ud.Build {
 	case "cmake":
-		TemplateHandling("templates/CMakeLists.cxx.tmpl", "./CMakeLists.txt", ud)
+		if ud.Lib == true {
+			TemplateHandling("templates/CMakeLibs.tmpl", "./CMakeLists.txt", ud)
+		} else {
+			TemplateHandling("templates/CMakeLists.cxx.tmpl", "./CMakeLists.txt", ud)
+		}
 	case "meson":
 		TemplateHandling("templates/cxx.meson.tmpl", "./meson.build", ud)
 	case "premake":
