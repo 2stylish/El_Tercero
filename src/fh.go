@@ -376,12 +376,6 @@ func FileHandling(ud UserData) {
 
 func InitETR() {
 	var empty UserData
-
-	var ud UserData
-
-	getData(&ud)
-	ud.Year = getTime()
-
 	if len(os.Args) > 1 {
 		switch os.Args[1] {
 		case "git":
@@ -398,8 +392,14 @@ func InitETR() {
 			gitFiles(empty)
 			os.Exit(0)
 		case "org":
-			TemplateHandling("templates/READMEORG.tmpl", "./README.org", ud)
+			TemplateHandling("templates/READMEORG.tmpl", "./README.org", empty)
+			os.Exit(0)
 		case "emb":
+			var ud UserData
+
+			getData(&ud)
+			ud.Year = getTime()
+
 			DirectoryCreation("./include")
 			DirectoryCreation("./lib")
 			DirectoryCreation("./src")
@@ -414,6 +414,10 @@ func InitETR() {
 			os.Exit(1)
 		}
 	}
+	var ud UserData
+
+	getData(&ud)
+	ud.Year = getTime()
 
 	FileHandling(ud)
 }
