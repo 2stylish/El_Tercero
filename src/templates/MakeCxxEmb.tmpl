@@ -1,0 +1,18 @@
+CFLAGS = -Wall -Wextra -Wpedantic -std=c++20
+OBJDIR = obj
+BUILDDIR = build
+#LDFLAGS = -T script.ld 
+
+{{.PJName}} : obj/main.o build
+					c++ -o build/{{.PJName}} obj/main.o $(CFLAGS) $(LDFLAGS) 
+
+obj/main.o : src/main.cxx obj
+				c++ -c src/main.cxx -o obj/main.o $(CFLAGS)
+
+$(BUILDDIR) : 
+				test ! -d $(BUILDDIR) && mkdir $(BUILDDIR) 
+
+$(OBJDIR) : 
+				test ! -d $(OBJDIR) && mkdir $(OBJDIR) 
+clean :
+				rm build/{{.PJName}} obj/main.o

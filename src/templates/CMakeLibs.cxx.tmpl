@@ -19,7 +19,7 @@ SET(SRCS
   src/main.c 
   )
 
-SET(DEPZ 
+SET(DEPS
   )
 
 SET(WINDEPZ
@@ -29,12 +29,12 @@ SET(WINDEPZ
 #include_directories(./include)
 
 # add the executable
-add_executable({{.PJName}} ${SRCS})
+add_library({{.PJName}} STATIC ${SRCS})
 
-if (UNIX)
-target_link_libraries({{.PJName}} ${DEPZ})
-endif(UNIX)
+#if (UNIX)
+#target_link_libraries( {{.PJName}}${DEPZ})
+#endif(UNIX)
 
-if (WIN32)
-target_link_libraries({{.PJName}} ${WINDEPZ})
-endif(WIN32)
+#if (WIN32)
+#target_link_libraries({{.PJName}} ${WINDEPZ})
+#endif(WIN32)

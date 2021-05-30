@@ -1,0 +1,18 @@
+CFLAGS = -Wall -Wextra -Wpedantic -std=c99
+OBJDIR = obj
+BUILDDIR = build
+#LDFLAGS = 
+
+{{.PJName}} : obj/main.o build
+					cc -o build/{{.PJName}} obj/main.o $(CFLAGS) $(LDFLAGS) 
+
+obj/main.o : src/main.cxx obj
+				cc -c src/main.cxx -o obj/main.o $(CFLAGS)
+
+$(BUILDDIR) : 
+				test ! -d $(BUILDDIR) && mkdir $(BUILDDIR) 
+
+$(OBJDIR) : 
+				test ! -d $(OBJDIR) && mkdir $(OBJDIR) 
+clean :
+				rm build/{{.PJName}} obj/main.o

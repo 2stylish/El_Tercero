@@ -91,7 +91,8 @@ func getData(ud *UserData) {
 		ud.Build, err = reader.ReadString('\n')
 		ErrCheck(err)
 		SanitizeStrings(&ud.Build)
-		fmt.Printf(GREEN + "Is this a library?\n\t[Y]es | [N]o\n" + RESET)
+		fmt.Printf(GREEN + "Is this a library?" + RESET)
+		fmt.Printf("\n\t[Y]es | [N]o\nSelection: ")
 		ud.LibString, err = reader.ReadString('\n')
 		ErrCheck(err)
 		SanitizeStrings(&ud.LibString)
@@ -161,8 +162,14 @@ func FileExistence(patheroo string) bool {
  ********************************/
 func BuildSystemC(ud UserData) {
 	switch ud.Build {
+	case "make":
+		TemplateHandling("templates/MakeC.tmpl", "./Makefile", ud)
 	case "cmake":
-		TemplateHandling("templates/CMakeLists.tmpl", "./CMakeLists.txt", ud)
+		if ud.Lib == true {
+			TemplateHandling("templates/CMakeLibs.tmpl", "./CMakeLists.txt", ud)
+		} else {
+			TemplateHandling("templates/CMakeLists.tmpl", "./CMakeLists.txt", ud)
+		}
 	case "meson":
 		TemplateHandling("templates/c.meson.tmpl", "./meson.build", ud)
 	case "premake":
@@ -175,9 +182,11 @@ func BuildSystemC(ud UserData) {
 
 func BuildSystemCXX(ud UserData) {
 	switch ud.Build {
+	case "make":
+		TemplateHandling("templates/MakeCxx.tmpl", "./Makefile", ud)
 	case "cmake":
 		if ud.Lib == true {
-			TemplateHandling("templates/CMakeLibs.tmpl", "./CMakeLists.txt", ud)
+			TemplateHandling("templates/CMakeLibs.cxx.tmpl", "./CMakeLists.txt", ud)
 		} else {
 			TemplateHandling("templates/CMakeLists.cxx.tmpl", "./CMakeLists.txt", ud)
 		}
@@ -367,6 +376,12 @@ func FileHandling(ud UserData) {
 
 func InitETR() {
 	var empty UserData
+
+	var ud UserData
+
+	getData(&ud)
+	ud.Year = getTime()
+
 	if len(os.Args) > 1 {
 		switch os.Args[1] {
 		case "git":
@@ -382,16 +397,23 @@ func InitETR() {
 			hgFiles(empty)
 			gitFiles(empty)
 			os.Exit(0)
+		case "org":
+			TemplateHandling("templates/READMEORG.tmpl", "./README.org", ud)
+		case "emb":
+			DirectoryCreation("./include")
+			DirectoryCreation("./lib")
+			DirectoryCreation("./src")
+			DirectoryCreation("./tests")
+			cppFiles(ud)
+			TemplateHandling("templates/gpl3.tmpl", "./LICENSE", ud)
+			gitFiles(empty)
+			TemplateHandling("templates/READMEORG.tmpl", "./README.org", ud)
+			os.Exit(0)
 		default:
 			fmt.Printf("If you're going to pass arguments, the only usage is for\nadding gitignore (and gittributes), hgignore or both of them.\n\nDo so by typing 'etr " + GREEN + "hg" + RESET + "|" + GREEN + "git" + RESET + "|" + GREEN + "both'" + RESET + "\n")
 			os.Exit(1)
 		}
 	}
-
-	var ud UserData
-
-	getData(&ud)
-	ud.Year = getTime()
 
 	FileHandling(ud)
 }
