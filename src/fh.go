@@ -263,6 +263,11 @@ func cppFiles(ud UserData) {
 	TemplateHandling("templates/main.cxx.tmpl", "./src/main.cxx", ud)
 	TemplateHandling("templates/clang-format.tmpl", "./.clang-format", ud)
 }
+func cppEmb(ud UserData) {
+	TemplateHandling("templates/MakeCxxEmb.tmpl", "./Makefile", ud)
+	TemplateHandling("templates/main.cxx.tmpl", "./src/main.cxx", ud)
+	TemplateHandling("templates/clang-format.tmpl", "./.clang-format", ud)
+}
 func goFiles(ud UserData) {
 	TemplateHandling("templates/taskfile.tmpl", "./Taskfile.yml", ud)
 	TemplateHandling("templates/main.go.tmpl", "./src/main.go", ud)
@@ -368,6 +373,8 @@ func FileHandling(ud UserData) {
 	DirectoryCreation("./lib")
 	DirectoryCreation("./src")
 	DirectoryCreation("./tests")
+	DirectoryCreation("./.builds")
+	TemplateHandling("./templates/manifest.tmpl", "./.builds/manifest.yml", ud)
 	FileCreation(ud)
 	LicenseCreation(ud)
 	vcsHandling(ud)
@@ -404,9 +411,11 @@ func InitETR() {
 			DirectoryCreation("./lib")
 			DirectoryCreation("./src")
 			DirectoryCreation("./tests")
-			cppFiles(ud)
-			TemplateHandling("templates/gpl3.tmpl", "./LICENSE", ud)
-			gitFiles(empty)
+			DirectoryCreation("./.builds")
+			TemplateHandling("./templates/manifest.tmpl", "./.builds/manifest.yml", ud)
+			cppEmb(ud)
+			LicenseCreation(ud)
+			vcsHandling(ud)
 			TemplateHandling("templates/READMEORG.tmpl", "./README.org", ud)
 			os.Exit(0)
 		default:
