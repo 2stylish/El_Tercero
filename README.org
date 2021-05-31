@@ -18,7 +18,7 @@ compile it yourself, anyways, if you still want to run the binaries compiled
 by a stranger you can download:
 [[https://github.com/hyakuburns/El_Tercero/releases][here]].
 
-      *** Aditional Notes
+*** Aditional Notes
     + Sets up clang-format with google style
     + It sets up compile-commands exporting in CMake (meson has it by default and premake can't do that)
     + It sets up rustfmt with sane defaults
