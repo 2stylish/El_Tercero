@@ -374,7 +374,7 @@ func FileHandling(ud UserData) {
 	DirectoryCreation("./src")
 	DirectoryCreation("./tests")
 	DirectoryCreation("./.builds")
-	TemplateHandling("./templates/manifest.tmpl", "./.builds/manifest.yml", ud)
+	TemplateHandling("templates/manifest.tmpl", "./.builds/manifest.yml", ud)
 	FileCreation(ud)
 	LicenseCreation(ud)
 	vcsHandling(ud)
