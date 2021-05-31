@@ -4,6 +4,7 @@ package main
 BIG: FAT: FUCKING: TODO:
 FINISH ADDING SUPPORT FOR DA MOFUKING LIBRARIEEEEEEEEEES
 and also make it so the main file is named after the project?
+TODO: start showing the options when using etr
 */
 
 import (
@@ -82,36 +83,50 @@ func getData(ud *UserData) {
 	SanitizeStrings(&ud.PJName)
 
 	fmt.Printf(GREEN + "Language: " + RESET)
+	fmt.Printf(ORANGE + "\n\tc | cpp | go | rs | zig\n" + RESET)
+	fmt.Printf("Selection: " + GREEN)
 	ud.Language, err = reader.ReadString('\n')
+	fmt.Printf(RESET + "\n")
 	ErrCheck(err)
 	SanitizeStrings(&ud.Language)
 
 	if ud.Language != "go" && ud.Language != "rs" && ud.Language != "zig" {
 		fmt.Printf(GREEN + "Build system: " + RESET)
+		fmt.Printf(ORANGE + "\n\tmake | cmake | meson | premake\n" + RESET)
+		fmt.Printf("Selection: " + GREEN)
 		ud.Build, err = reader.ReadString('\n')
+		fmt.Printf(RESET + "\n")
 		ErrCheck(err)
 		SanitizeStrings(&ud.Build)
-		fmt.Printf(GREEN + "Is this a library?" + RESET)
-		fmt.Printf("\n\t[Y]es | [N]o\nSelection: ")
-		ud.LibString, err = reader.ReadString('\n')
-		ErrCheck(err)
-		SanitizeStrings(&ud.LibString)
-		if ud.LibString == "yes" || ud.LibString == "y" || ud.LibString == "Y" {
-			ud.Lib = true
-		} else {
-			ud.Lib = false
+		if ud.Build == "cmake" {
+			fmt.Printf(GREEN + "Is this a library?" + RESET)
+			fmt.Printf("\n\t[Y]es | [N]o\n")
+			fmt.Printf("Selection: " + GREEN)
+			ud.LibString, err = reader.ReadString('\n')
+			fmt.Printf(RESET + "\n")
+			ErrCheck(err)
+			SanitizeStrings(&ud.LibString)
+			if ud.LibString == "yes" || ud.LibString == "y" || ud.LibString == "Y" {
+				ud.Lib = true
+			} else {
+				ud.Lib = false
+			}
 		}
 	}
 
 	fmt.Printf(GREEN + "License:\n" + RESET)
-	fmt.Printf("\t" + RED + "[B]SD:" + RESET + "\n\t" + ORANGE + "[G]PL:" + RESET + "\n\tMIT\n\t[N]one\n")
-	fmt.Printf("Selection: ")
+	fmt.Printf("\t" + RED + "bsd" + RESET + " | " + ORANGE + "gpl" + RESET + " | " + "mpl | mit" + " | " + "[n]one\n")
+	fmt.Printf("Selection: " + GREEN)
 	ud.License, err = reader.ReadString('\n')
+	fmt.Printf(RESET + "\n")
 	ErrCheck(err)
 	SanitizeStrings(&ud.License)
 	if ud.License[0] == 'b' || ud.License[0] == 'B' {
-		fmt.Printf("Which " + RED + "BSD" + RESET + " license do you want? ")
+		fmt.Printf("Which " + RED + "BSD" + RESET + " license?\n")
+		fmt.Printf(RED + "\t 1 | 2 | 3 | 4\n" + RESET)
+		fmt.Printf("Selection: " + RED)
 		ud.LicNum, err = reader.ReadString('\n')
+		fmt.Printf(RESET + "\n")
 		ErrCheck(err)
 		SanitizeStrings(&ud.LicNum)
 		dummy, _ := strconv.Atoi(ud.LicNum)
@@ -119,8 +134,11 @@ func getData(ud *UserData) {
 			fmt.Printf("Defaulting to BSD 3\n")
 		}
 	} else if ud.License[0] == 'g' || ud.License[0] == 'G' {
-		fmt.Printf("Which " + ORANGE + "GPL" + RESET + " license do you want? ")
+		fmt.Printf("Which " + ORANGE + "GPL" + RESET + " license?")
+		fmt.Printf(ORANGE + "\n\t2 | 2 or later | 3 | 3 or later\n" + RESET)
+		fmt.Printf("Selection: " + ORANGE)
 		ud.LicNum, err = reader.ReadString('\n')
+		fmt.Printf(RESET + "\n")
 		ErrCheck(err)
 		SanitizeStrings(&ud.LicNum)
 	}
@@ -358,6 +376,8 @@ func LicenseCreation(ud UserData) {
 		}
 	case "mit":
 		TemplateHandling("templates/mit.tmpl", "./LICENSE", ud)
+	case "mpl":
+		TemplateHandling("templates/mpl2.tmpl", "./LICENSE", ud)
 	case "n":
 		fmt.Println("No license!")
 	default:
@@ -381,7 +401,20 @@ func FileHandling(ud UserData) {
 	TemplateHandling("templates/README.tmpl", "./README.md", ud)
 }
 
-func InitETR() {
+func embeddedFileHandling(ud UserData) {
+	DirectoryCreation("./include")
+	DirectoryCreation("./lib")
+	DirectoryCreation("./src")
+	DirectoryCreation("./tests")
+	DirectoryCreation("./.builds")
+	TemplateHandling("./templates/manifest.tmpl", "./.builds/manifest.yml", ud)
+	cppEmb(ud)
+	LicenseCreation(ud)
+	vcsHandling(ud)
+	TemplateHandling("templates/READMEORG.tmpl", "./README.org", ud)
+}
+
+func argParse() {
 	var empty UserData
 	if len(os.Args) > 1 {
 		switch os.Args[1] {
@@ -403,28 +436,21 @@ func InitETR() {
 			os.Exit(0)
 		case "emb":
 			var ud UserData
-
 			getData(&ud)
 			ud.Year = getTime()
-
-			DirectoryCreation("./include")
-			DirectoryCreation("./lib")
-			DirectoryCreation("./src")
-			DirectoryCreation("./tests")
-			DirectoryCreation("./.builds")
-			TemplateHandling("./templates/manifest.tmpl", "./.builds/manifest.yml", ud)
-			cppEmb(ud)
-			LicenseCreation(ud)
-			vcsHandling(ud)
-			TemplateHandling("templates/READMEORG.tmpl", "./README.org", ud)
+			embeddedFileHandling(ud)
 			os.Exit(0)
 		default:
 			fmt.Printf("If you're going to pass arguments, the only usage is for\nadding gitignore (and gittributes), hgignore or both of them.\n\nDo so by typing 'etr " + GREEN + "hg" + RESET + "|" + GREEN + "git" + RESET + "|" + GREEN + "both'" + RESET + "\n")
 			os.Exit(1)
 		}
 	}
-	var ud UserData
 
+}
+func InitETR() {
+	argParse()
+
+	var ud UserData
 	getData(&ud)
 	ud.Year = getTime()
 
