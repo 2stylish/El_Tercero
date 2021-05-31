@@ -17,29 +17,8 @@ so I encourage you to
 compile it yourself, anyways, if you still want to run the binaries compiled
 by a stranger you can download:
 [[https://github.com/hyakuburns/El_Tercero/releases][here]].
-** Supported answers
-| Question     | Valid Answers                                                    | Notes                                                          |
-|--------------+------------------------------------------------------------------+----------------------------------------------------------------|
-| Project name | ~you have to email me and ask me if your project name is ok~       |                                                                |
-|--------------+------------------------------------------------------------------+----------------------------------------------------------------|
-| Language     | ~c~, ~cpp~, ~go~, ~rs~, ~zig~                                              |                                                                |
-|--------------+------------------------------------------------------------------+----------------------------------------------------------------|
-| Build system | ~cmake~, ~meson~, ~premake~                                            | Go defaults to [[https://github.com/go-task/task][Task]]                                            |
-|              |                                                                  | Zig defaults to ~build.zig~ files                                |
-|              |                                                                  | Rust defaults to ~cargo~ since I think 99.9% of people use cargo |
-|--------------+------------------------------------------------------------------+----------------------------------------------------------------|
-| License      | For bsd: ~b~, ~bsd~                                                  |                                                                |
-|              | Numbers: ~1~, ~2~, ~3~, ~4~                                              |                                                                |
-|              | For gpl: ~g~, ~gpl~                                                  |                                                                |
-|              | Numbers: ~2~, ~2 or later~, ~3, ~3 or later~.                            |                                                                |
-|              | For mit: ~mit~                                                     |                                                                |
-|--------------+------------------------------------------------------------------+----------------------------------------------------------------|
-| Author       | ~Again, you have to email me with your name and before you use it~ |                                                                |
-|--------------+------------------------------------------------------------------+----------------------------------------------------------------|
-| Git or HG?   | ~git~, ~hg~, ~both~                                                    |                                                                |
-|--------------+------------------------------------------------------------------+----------------------------------------------------------------|
 
-*** Aditional Notes
+      *** Aditional Notes
     + Sets up clang-format with google style
     + It sets up compile-commands exporting in CMake (meson has it by default and premake can't do that)
     + It sets up rustfmt with sane defaults
