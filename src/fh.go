@@ -259,7 +259,7 @@ func vcsHandling(ud UserData) {
 		hgFiles(ud)
 	default:
 		fmt.Println("Defaulting to git!")
-		hgFiles(ud)
+		gitFiles(ud)
 	}
 }
 func gitFiles(ud UserData) {
