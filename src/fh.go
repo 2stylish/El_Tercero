@@ -143,10 +143,12 @@ func getData(ud *UserData) {
 		SanitizeStrings(&ud.LicNum)
 	}
 
-	fmt.Print(GREEN + "Author: " + RESET)
-	ud.Author, err = reader.ReadString('\n')
-	ErrCheck(err)
-	SanitizeStrings(&ud.Author)
+	if ud.Language == "go" || ud.Language == "rus" {
+		fmt.Print(GREEN + "Author: " + RESET)
+		ud.Author, err = reader.ReadString('\n')
+		ErrCheck(err)
+		SanitizeStrings(&ud.Author)
+	}
 
 	fmt.Print(ORANGE + "Git" + RESET + " or " + GRAY + "HG? " + RESET)
 	ud.VCS, err = reader.ReadString('\n')
