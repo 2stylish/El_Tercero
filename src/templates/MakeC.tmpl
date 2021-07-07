@@ -3,10 +3,10 @@ OBJDIR = obj
 BUILDDIR = build
 #LDFLAGS = 
 
-{{.PJName}} : obj/main.o build
+{{.PJName}} : obj/main.o $(BUILDDIR)
 					cc -o build/{{.PJName}} obj/main.o $(CFLAGS) $(LDFLAGS) 
 
-obj/main.o : src/main.cxx obj
+obj/main.o : src/main.cxx $(OBJDIR)
 				cc -c src/main.cxx -o obj/main.o $(CFLAGS)
 
 $(BUILDDIR) : 

@@ -3,10 +3,10 @@ OBJDIR = obj
 BUILDDIR = build
 #LDFLAGS = -T script.ld 
 
-{{.PJName}} : obj/main.o build
+{{.PJName}} : obj/main.o $(BUILDDIR)
 					c++ -o build/{{.PJName}} obj/main.o $(CFLAGS) $(LDFLAGS) 
 
-obj/main.o : src/main.cxx obj
+obj/main.o : src/main.cxx $(OBJDIR)
 				c++ -c src/main.cxx -o obj/main.o $(CFLAGS)
 
 $(BUILDDIR) : 
