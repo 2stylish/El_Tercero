@@ -1,19 +1,36 @@
 CXX = c++
 CFLAGS = -Wall -Wextra -Wpedantic -std=c++20
+OPTFLAGS = -O3 -march=native
 OBJDIR = obj
+OBJLIST = obj/main.o
+SRCLIST = src/main.cxx
 BUILDDIR = build
-#LDFLAGS = 
+DEBUGDIR = debug
+RELDIR = build/release
+#LDFLAGS =
 
-{{.PJName}} : obj/main.o $(BUILDDIR)
-					$(CXX) -o build/{{.PJName}} obj/main.o $(CFLAGS) $(LDFLAGS) 
+{{.PJName}} : $(BUILDDIR)
+				$(CXX) -g $(SRCLIST) -o $(BUILDDIR)/{{.PJName}} $(CFLAGS) $(LDFLAGS) 
+
+release: $(OBJLIST) $(RELDIR)
+				$(CXX) $(OBJLIST) -o $(RELDIR)/{{.PJName}} $(CFLAGS) $(OPTFLAGS) $(LDFLAGS)
 
 obj/main.o : src/main.cxx $(OBJDIR)
-				$(CXX) -c src/main.cxx -o obj/main.o $(CFLAGS)
+				$(CXX) -c src/main.cxx -o $(OBJDIR)/main.o $(CFLAGS) $(OPTFLAGS) $(LDFLAGS)
 
 $(BUILDDIR) : 
 				test ! -d $(BUILDDIR) && mkdir $(BUILDDIR) 
 
-$(OBJDIR) : 
+$(OBJDIR) :
 				test ! -d $(OBJDIR) && mkdir $(OBJDIR) 
+
+$(DEBUGDIR) : 
+				test ! -d $(DEBUGDIR) && mkdir $(DEBUGDIR) 
+
+$(RELDIR) : 
+				test ! -d $(RELDIR) && mkdir -p $(RELDIR) 
+
 clean :
-				rm build/{{.PJName}} obj/main.o
+				rm $(BUILDDIR)/{{.PJName}}
+				rm $(RELDIR)/{{.PJName}}
+				rm $(OBJLIST)
