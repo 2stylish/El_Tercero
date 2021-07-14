@@ -8,6 +8,7 @@ BUILDDIR = build
 DEBUGDIR = debug
 RELDIR = build/release
 #LDFLAGS =
+#DIRECTIVES =
 
 {{.PJName}} : $(BUILDDIR)
 				$(CXX) -g $(SRCLIST) -o $(BUILDDIR)/{{.PJName}} $(CFLAGS) $(LDFLAGS) 
