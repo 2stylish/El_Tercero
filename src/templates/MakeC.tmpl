@@ -1,19 +1,37 @@
-CFLAGS = -Wall -Wextra -Wpedantic -std=c99
-OBJDIR = obj
-BUILDDIR = build
 CC = cc
-#LDFLAGS = 
+CFLAGS = -Wall -Wextra -Wpedantic -std=c99
+OPTFLAGS = -O3 -march=native
+OBJDIR = obj
+OBJLIST = obj/main.o
+SRCLIST = src/main.c
+BUILDDIR = build
+DEBUGDIR = debug
+RELDIR = build/release
+#LDFLAGS =
+#DIRECTIVES =
 
-{{.PJName}} : obj/main.o $(BUILDDIR)
-					$(CC) -o build/{{.PJName}} obj/main.o $(CFLAGS) $(LDFLAGS) 
+{{.PJName}} : $(BUILDDIR)
+				$(CC) -g $(SRCLIST) -o $(BUILDDIR)/{{.PJName}} $(CFLAGS) $(LDFLAGS) $(DIRECTIVES)
+
+release: $(OBJLIST) $(RELDIR)
+				$(CC) $(OBJLIST) -o $(RELDIR)/{{.PJName}} $(CFLAGS) $(OPTFLAGS) $(LDFLAGS)
 
 obj/main.o : src/main.c $(OBJDIR)
-				$(CC) -c src/main.c -o obj/main.o $(CFLAGS)
+				$(CC) -c src/main.c -o $(OBJDIR)/main.o $(CFLAGS) $(OPTFLAGS) $(LDFLAGS) $(DIRECTIVES)
 
 $(BUILDDIR) : 
 				test ! -d $(BUILDDIR) && mkdir $(BUILDDIR) 
 
-$(OBJDIR) : 
+$(OBJDIR) :
 				test ! -d $(OBJDIR) && mkdir $(OBJDIR) 
+
+$(DEBUGDIR) : 
+				test ! -d $(DEBUGDIR) && mkdir $(DEBUGDIR) 
+
+$(RELDIR) : 
+				test ! -d $(RELDIR) && mkdir -p $(RELDIR) 
+
 clean :
-				rm build/{{.PJName}} obj/main.o
+				rm $(BUILDDIR)/{{.PJName}}
+				rm $(RELDIR)/{{.PJName}}
+				rm $(OBJLIST)
